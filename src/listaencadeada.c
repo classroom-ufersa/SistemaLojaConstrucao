@@ -13,7 +13,6 @@ ListaSecoes *adicionarSecao(ListaSecoes *lista, Secao *secao) {
   }
 
   nova_lista->secao = secao;
-  
   if (lista == NULL) {
     nova_lista->prox = nova_lista;
     nova_lista->ant = nova_lista;
@@ -82,7 +81,8 @@ void imprimirListaSecoes(ListaSecoes *lista) {
         ListaSecoes *p = lista;
         do 
         {
-            printf("Secao = %p \n", p->secao);
+            printf("Seção - Nome: %s, Local: %s \n", p->secao->nome, p->secao->local);
+            p = p->prox;
 
         } while (p != lista);
     }

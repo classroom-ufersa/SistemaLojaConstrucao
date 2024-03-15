@@ -13,6 +13,6 @@ struct secao {
 
 typedef struct secao Secao;
 
-void criarSecao(char nome[50], char local[50], ListaSecoes *lista);
+ListaSecoes *criarSecao(char nome[50], char local[50], ListaSecoes *lista);
 
 #endif
