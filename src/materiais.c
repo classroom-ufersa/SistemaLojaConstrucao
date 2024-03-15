@@ -1,5 +1,5 @@
-#include "secao.h"
-#include "materiais.h"
+#include "../include/secao.h"
+#include "../include/materiais.h"
 
 void adicionar_material(Secao * secao, char nome[50], char tipo[50], float preco, int qtdEstoque){
 
