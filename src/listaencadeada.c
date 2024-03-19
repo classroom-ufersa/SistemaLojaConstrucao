@@ -74,16 +74,14 @@ int verificarListaVazia(ListaSecoes *lista) {
 }
 
 void imprimirListaSecoes(ListaSecoes *lista) {
-    if (verificarListaVazia(lista) == 1) {
+    if (verificarListaVazia(lista)) {
         printf("Lista vazia. \n");
         return;
     } else {
         ListaSecoes *p = lista;
-        do 
-        {
+        do {
             printf("Seção - Nome: %s, Local: %s \n", p->secao->nome, p->secao->local);
             p = p->prox;
-
         } while (p != lista);
     }
 }

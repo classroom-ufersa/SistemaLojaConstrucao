@@ -1,7 +1,6 @@
 #include "../include/secao.h"
 #include "../include/listaencadeada.h"
 
-
 ListaSecoes *criarSecao(char nome[50], char local[50], ListaSecoes *lista) {
     Secao *nova_secao = (Secao *)malloc(sizeof(Secao));
     if (nova_secao == NULL) {
@@ -17,3 +16,4 @@ ListaSecoes *criarSecao(char nome[50], char local[50], ListaSecoes *lista) {
 
     return lista;
 }
+
