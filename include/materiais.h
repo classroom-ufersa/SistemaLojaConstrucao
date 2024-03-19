@@ -1,29 +1,32 @@
+// materiais.h
+
 #ifndef MATERIAIS_H
 #define MATERIAIS_H
+
 #include "secao.h"
 
-/*Nono tipo de estrutura material. Armazena os informações dos materiais.
-*/
-struct material{
-  char nome[50];
-  char tipo[50];
-  float preco;
-  int qtdEstoque;
+struct material
+{
+    char nome[50];
+    char tipo[50];
+    float preco;
+    int qtdEstoque;
 };
 
-  typedef struct material Material;
+typedef struct material Material;
 
-/*Função para adicionar materiais.
-*/
-void adicionar_material(Secao* secao, char nome[50], char tipo[50], float preco,int qtdEstoque);
+struct no_material
+{
+    Material *material;
+    struct no_material *prox;
+};
 
-/*Função para remover materiais
-*/
-void remover_material(Material * material, Secao * secao);
+typedef struct no_material NoMaterial;
 
+void adicionar_material(Secao *secao, char nome[50], char tipo[50], float preco, int qtdEstoque);
 
-/*Função para buscar materiais.
-*/
-void buscar_material(Material * material);
+void remover_material(Material *material, Secao *secao);
+
+void buscar_material(Material *material, ListaSecoes *listaSecoes);
 
 #endif

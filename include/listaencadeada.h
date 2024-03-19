@@ -3,7 +3,6 @@
 
 typedef struct secao Secao;
 
-
 typedef struct listasecoes {
   Secao *secao;
   struct listasecoes *prox;
