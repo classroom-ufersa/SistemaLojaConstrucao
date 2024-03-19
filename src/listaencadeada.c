@@ -4,7 +4,7 @@
 ListaSecoes *criarListaSecoes(void) { return NULL; };
 
 ListaSecoes *adicionarSecao(ListaSecoes *lista, Secao *secao) {
-  
+
   ListaSecoes *nova_lista = (ListaSecoes *)malloc(sizeof(ListaSecoes));
 
   if (nova_lista == NULL) {
@@ -19,7 +19,7 @@ ListaSecoes *adicionarSecao(ListaSecoes *lista, Secao *secao) {
     return nova_lista;
   }
 
-  nova_lista->prox = lista;
+  nova_lista->prox = lista->prox;
   nova_lista->ant = lista->ant;
   lista->ant->prox = nova_lista;
   lista->ant = nova_lista;
@@ -29,14 +29,15 @@ ListaSecoes *adicionarSecao(ListaSecoes *lista, Secao *secao) {
 
 ListaSecoes *buscarSecao(ListaSecoes *lista, Secao *secao) {
   ListaSecoes *p = lista;
-  while (p != NULL && p->prox != lista && p->secao != secao) {
-    p = p->prox;
+  while (p != NULL && p->prox != lista) {
     if (p->secao == secao) {
       return p;
     }
+    p = p->prox;
   }
   return NULL;
-};
+}
+
 
 ListaSecoes *removerSecao(ListaSecoes *lista, Secao *secao) {
   ListaSecoes *p = buscarSecao(lista, secao);
@@ -66,22 +67,23 @@ ListaSecoes *removerSecao(ListaSecoes *lista, Secao *secao) {
 }
 
 int verificarListaVazia(ListaSecoes *lista) {
-    if (lista == NULL) {
-        return 1;
-    } else {
-        return 0;
-    }
+  if (lista == NULL) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 void imprimirListaSecoes(ListaSecoes *lista) {
     if (verificarListaVazia(lista)) {
-        printf("Lista vazia. \n");
+        printf("Lista vazia.\n");
         return;
-    } else {
-        ListaSecoes *p = lista;
-        do {
-            printf("Seção - Nome: %s, Local: %s \n", p->secao->nome, p->secao->local);
-            p = p->prox;
-        } while (p != lista);
     }
+    ListaSecoes *p = lista; // Inicializa o ponteiro para percorrer a lista
+    
+    while ( p != lista ) {
+        printf("Seção - Nome: %s, Local: %s\n", p->secao->nome, p->secao->local);
+        p = p->prox;
+    };
 }
+

@@ -1,6 +1,7 @@
 #include <stdio.h>
-#include "../include/secao.h"
+#include <stdlib.h>
 #include "../include/listaencadeada.h"
+#include "../include/materiais.h"
 
 int main() {
     // Criando uma lista de seções
@@ -20,6 +21,10 @@ int main() {
     adicionar_material(listaSecoes->prox->secao, "Vaso", "Decoração", 29.99, 10);
     adicionar_material(listaSecoes->prox->prox->secao, "Encanamento", "Hidráulica", 10.50, 15);
 
+    // Imprimindo a lista de seções com os materiais adicionados
+    printf("\nLista de Seções com Materiais Adicionados:\n");
+    imprimirListaSecoes(listaSecoes);
+
     // Buscando materiais
     printf("\nBuscando materiais:\n");
     Material material1 = {"Martelo", "Ferramenta", 0.0, 0};
@@ -38,5 +43,10 @@ int main() {
     printf("\nLista de Seções após Remoção:\n");
     imprimirListaSecoes(listaSecoes);
 
+    // Liberando memória alocada para a lista de seções
+    // Aqui, seria ideal ter uma função para liberar toda a memória alocada, incluindo materiais
+    free(listaSecoes);
+
     return 0;
 }
+

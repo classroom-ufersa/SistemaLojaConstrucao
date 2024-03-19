@@ -1,13 +1,12 @@
-// secao.h
-
 #ifndef SECAO_H
 #define SECAO_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/listaencadeada.h"
-#include "../include/materiais.h"
+#include "listaencadeada.h"
+
+typedef struct no_material NoMaterial;
 
 struct secao {
     char nome[50];
