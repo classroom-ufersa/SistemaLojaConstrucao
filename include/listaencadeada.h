@@ -9,7 +9,6 @@ typedef struct listasecoes {
   struct listasecoes *ant;
 } ListaSecoes;
 
-
 ListaSecoes *criarListaSecoes(void);
 
 ListaSecoes *adicionarSecao(ListaSecoes *lista, Secao *secao);

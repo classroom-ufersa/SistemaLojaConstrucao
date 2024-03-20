@@ -10,8 +10,8 @@ void adicionar_material(Secao *secao, char nome[50], char tipo[50], float preco,
     return;
   }
   // Preencher os detalhes do novo material
-  strcpy(novo_material->nome, nome);
-  strcpy(novo_material->tipo, tipo);
+  strncpy(novo_material->nome, nome, 50);
+  strncpy(novo_material->tipo, tipo, 50);
   novo_material->preco = preco;
   novo_material->qtdEstoque = qtdEstoque;
 
@@ -51,7 +51,6 @@ void remover_material(Material *material, Secao *secao) {
     return;
   }
 
-  // Verifica se o material a ser removido está no início da lista
   if (strcmp(atual->material->nome, material->nome) == 0 &&
       strcmp(atual->material->tipo, material->tipo) == 0) {
     secao->materiais = atual->prox;
@@ -60,15 +59,10 @@ void remover_material(Material *material, Secao *secao) {
     return;
   }
 
-  // Percorre a lista procurando o material a ser removido
   while (atual != NULL) {
-    // Verificar se o próximo nó é nulo antes de acessar atual->prox
-    if (atual->prox != NULL &&
-        strcmp(atual->material->nome, material->nome) == 0 &&
+    if (strcmp(atual->material->nome, material->nome) == 0 &&
         strcmp(atual->material->tipo, material->tipo) == 0) {
-      if (anterior != NULL) {
-        anterior->prox = atual->prox;
-      }
+      anterior->prox = atual->prox;
       printf("Material removido com sucesso da seção %s!\n", secao->nome);
       free(atual);
       return;
@@ -104,4 +98,20 @@ void buscar_material(Material *material, ListaSecoes *listaSecoes) {
   }
 
   printf("Material não encontrado em nenhuma seção.\n");
+}
+
+void imprimirListaMateriais(Secao *secao) {
+  if (secao->materiais == NULL) {
+    printf("A lista de materiais está vazia na seção %s.\n", secao->nome);
+    return;
+  }
+
+  printf("Lista de Materiais na Seção %s:\n", secao->nome);
+  NoMaterial *atual = secao->materiais;
+  while (atual != NULL) {
+    printf("Material - Nome: %s, Tipo: %s, Preço: %.2f, Quantidade: %d\n",
+           atual->material->nome, atual->material->tipo, atual->material->preco,
+           atual->material->qtdEstoque);
+    atual = atual->prox;
+  }
 }
