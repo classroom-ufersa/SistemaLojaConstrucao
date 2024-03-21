@@ -84,11 +84,10 @@ void buscar_material(Material *material, ListaSecoes *listaSecoes) {
       if (strcmp(atualMaterial->material->nome, material->nome) == 0 &&
           strcmp(atualMaterial->material->tipo, material->tipo) == 0) {
         printf("Material encontrado na seção %s!\n", p->secao->nome);
-        printf("Detalhes:\n");
-        printf("Nome: %s\n", atualMaterial->material->nome);
-        printf("Tipo: %s\n", atualMaterial->material->tipo);
-        printf("Preço: %.2f\n", atualMaterial->material->preco);
-        printf("Quantidade em estoque: %d\n",
+        printf("\t Nome: %s\n", atualMaterial->material->nome);
+        printf("\t Tipo: %s\n", atualMaterial->material->tipo);
+        printf("\t Preço: %.2f\n", atualMaterial->material->preco);
+        printf("\t Quantidade em estoque: %d\n",
                atualMaterial->material->qtdEstoque);
         return;
       }
@@ -106,10 +105,9 @@ void imprimirListaMateriais(Secao *secao) {
     return;
   }
 
-  printf("Lista de Materiais na Seção %s:\n", secao->nome);
   NoMaterial *atual = secao->materiais;
   while (atual != NULL) {
-    printf("Material - Nome: %s, Tipo: %s, Preço: %.2f, Quantidade: %d\n",
+    printf("\t Material: %s \t Tipo: %s \t Preço: %.2f \t Quantidade: %d\n",
            atual->material->nome, atual->material->tipo, atual->material->preco,
            atual->material->qtdEstoque);
     atual = atual->prox;
