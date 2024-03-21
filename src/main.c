@@ -3,42 +3,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void imprimirArquivo(ListaSecoes *listaSecoes) {
+    FILE *arquivo = fopen("secoes_materiais.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
+
+    ListaSecoes *ptr = listaSecoes;
+    while (ptr != NULL) {
+        fprintf(arquivo, "Seção: %s, Localização: %s\n", ptr->secao->nome, ptr->secao->local);
+        NoMaterial *materialPtr = ptr->secao->materiais;
+        while (materialPtr != NULL) {
+            fprintf(arquivo, "  Material: %s, Categoria: %s, Preço: %.2f, Quantidade: %d\n",
+                    materialPtr->material->nome, materialPtr->material->tipo,
+                    materialPtr->material->preco, materialPtr->material->qtdEstoque);
+            materialPtr = materialPtr->prox;
+        }
+        fprintf(arquivo, "\n");
+        ptr = ptr->prox;
+    }
+
+    fclose(arquivo);
+}
+
+
 int main() {
   // Criando uma lista de seções
   ListaSecoes *listaSecoes = criarListaSecoes();
 
   // Criando algumas seções e adicionando à lista
+  listaSecoes = criarSecao("Hidráulica", "Local 3", listaSecoes);
   listaSecoes = criarSecao("Ferramentas", "Local 1", listaSecoes);
   listaSecoes = criarSecao("Decoração", "Local 2", listaSecoes);
-  listaSecoes = criarSecao("Hidráulica", "Local 3", listaSecoes);
-
-  // Imprimindo a lista de seções
-  printf("Lista de Seções:\n");
-  imprimirListaSecoes(listaSecoes);
 
   // Adicionando materiais às seções
   adicionar_material(listaSecoes->secao, "Martelo", "Ferramenta", 15.99, 20);
+  adicionar_material(listaSecoes->secao, "Aartelo", "Ferramenta", 15.99, 20);
   adicionar_material(listaSecoes->prox->secao, "Vaso", "Decoração", 29.99, 10);
   adicionar_material(listaSecoes->prox->prox->secao, "Encanamento",
                      "Hidráulica", 10.50, 15);
-  // Buscando materiais
-  printf("\nBuscando materiais:\n");
-  Material material1 = {"Martelo", "Ferramenta", 0.0, 0};
-  buscar_material(&material1, listaSecoes);
 
-  Material material2 = {"Vaso", "Decoração", 0.0, 0};
-  buscar_material(&material2, listaSecoes);
+  // Salvando as seções e materiais em um arquivo
+  ordenarListaSecoes(listaSecoes);
+  imprimirArquivo(listaSecoes);
 
-  Material material3 = {"Encanamento", "Hidráulica", 0.0, 0};
-  buscar_material(&material3, listaSecoes);
-
-  // Removendo materiais
-  printf("\nRemovendo material: Martelo, da Seção Ferramentas:\n");
-  Material material4 = {"Martelo", "Ferramenta", 0.0, 0};
-  remover_material(&material4, listaSecoes->secao);
-
-  // Imprimindo a lista de seções após a remoção
-  printf("\nLista de Seções após Remoção:\n");
-  imprimirListaSecoes(listaSecoes);
   return 0;
 }

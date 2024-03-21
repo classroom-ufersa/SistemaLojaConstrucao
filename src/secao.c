@@ -2,17 +2,35 @@
 #include "../include/listaencadeada.h"
 
 ListaSecoes *criarSecao(char nome[50], char local[50], ListaSecoes *lista) {
-  Secao *nova_secao = (Secao *)malloc(sizeof(Secao));
-  if (nova_secao == NULL) {
-    printf("Erro na alocação de memória\n");
-    exit(1);
-  }
+    Secao *novaSecao = (Secao *)malloc(sizeof(Secao));
+    if (novaSecao == NULL) {
+        printf("Erro: Não foi possível alocar memória para a nova seção.\n");
+        return lista;
+    }
+    strcpy(novaSecao->nome, nome);
+    strcpy(novaSecao->local, local);
+    novaSecao->materiais = NULL;
 
-  strncpy(nova_secao->nome, nome, 50);
-  strncpy(nova_secao->local, local, 50);
-  lista = adicionarSecao(lista, nova_secao);
+    ListaSecoes *novoNo = (ListaSecoes *)malloc(sizeof(ListaSecoes));
+    if (novoNo == NULL) {
+        printf("Erro: Não foi possível alocar memória para o novo nó de seção.\n");
+        free(novaSecao);
+        return lista;
+    }
+    novoNo->secao = novaSecao;
+    novoNo->prox = NULL;
 
-  printf("Seção %s criada com sucesso!\n", nome);
+    if (lista == NULL) {
+        return novoNo;
+    }
 
-  return lista;
+    ListaSecoes *atual = lista;
+    while (atual->prox != NULL) {
+        atual = atual->prox;
+    }
+    atual->prox = novoNo;
+
+    ordenarListaSecoes(lista); // Ordenar as seções após adicionar a nova seção
+
+    return lista;
 }

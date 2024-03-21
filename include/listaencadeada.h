@@ -60,5 +60,7 @@ int verificarListaVazia(ListaSecoes *lista);
  */
 void imprimirListaSecoes(ListaSecoes *lista);
 
+void ordenarListaSecoes(ListaSecoes *listaSecoes);
+
 #endif
 

@@ -1,6 +1,7 @@
 #include "../include/listaencadeada.h"
 #include "../include/materiais.h"
 #include "../include/secao.h"
+#include <stdio.h>
 
 ListaSecoes *criarListaSecoes(void) { return NULL; };
 
@@ -92,3 +93,36 @@ void imprimirListaSecoes(ListaSecoes *lista) {
     p = p->prox;
   } while (p != NULL && p != lista);
 }
+
+void trocarSecoes(ListaSecoes *a, ListaSecoes *b) {
+    Secao *temp = a->secao;
+    a->secao = b->secao;
+    b->secao = temp;
+}
+
+
+// Função para ordenar a lista de seções por nome (Insertion Sort)
+void ordenarListaSecoes(ListaSecoes *listaSecoes) {
+    if (listaSecoes == NULL || listaSecoes->prox == NULL) {
+        return; // Não há necessidade de ordenar se a lista estiver vazia ou tiver apenas um elemento
+    }
+
+    int trocado;
+    ListaSecoes *ptr;
+    ListaSecoes *ultimo = NULL;
+
+    do {
+        trocado = 0;
+        ptr = listaSecoes;
+
+        while (ptr->prox != ultimo) {
+            if (strcmp(ptr->secao->nome, ptr->prox->secao->nome) > 0) {
+                trocarSecoes(ptr, ptr->prox);
+                trocado = 1;
+            }
+            ptr = ptr->prox;
+        }
+        ultimo = ptr;
+    } while (trocado);
+}
+

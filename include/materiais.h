@@ -17,6 +17,7 @@ typedef struct material Material; // Define o tipo Material
 struct no_material {
   Material *material;           // Ponteiro para o material
   struct no_material *prox;     // Ponteiro para o próximo nó na lista
+  struct no_material *ant;       // Ponteiro para o nó anterior da lista
 };
 
 typedef struct no_material NoMaterial; // Define o tipo NoMaterial
@@ -54,6 +55,9 @@ void buscar_material(Material *material, ListaSecoes *listaSecoes);
  * @param secao Ponteiro para a seção cuja lista de materiais será impressa.
  */
 void imprimirListaMateriais(Secao *secao);
+
+
+void ordenarMateriais(Secao *secao);
 
 #endif
 
