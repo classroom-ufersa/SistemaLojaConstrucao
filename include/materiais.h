@@ -39,7 +39,7 @@ void adicionar_material(Secao *secao, char nome[50], char tipo[50], float preco,
  * @param material Ponteiro para o material a ser removido.
  * @param secao Ponteiro para a seção onde o material está localizado.
  */
-void remover_material(Material *material, Secao *secao);
+void remover_material(Material *material, Secao*secao);
 
 /**
  * @brief Busca por um material em todas as seções.
