@@ -41,7 +41,8 @@ void adicionar_material(Secao *secao, char nome[50], char tipo[50], float preco,
 }
 
 
-void remover_material(Material *material, Secao *secao) {
+void remover_material(Material *material, Secao*secao) {
+  printf("entou nessa bosta");
   if (secao->materiais == NULL) {
     printf("A lista de materiais está vazia na seção %s.\n", secao->nome);
     return;
@@ -73,6 +74,7 @@ void remover_material(Material *material, Secao *secao) {
   } while (atual != secao->materiais);
 
   printf("Material não encontrado na seção %s.\n", secao->nome);
+return;
 }
 
 

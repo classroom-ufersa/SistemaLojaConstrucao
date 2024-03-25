@@ -87,7 +87,7 @@ void imprimirListaSecoes(ListaSecoes *lista) {
   ListaSecoes *p = lista; // Inicializa um ponteiro para percorrer a lista
 
   do {
-    printf(" Seção: %s \t Local: %s\n", p->secao->nome,
+    printf(" Secao: %s \t Local: %s\n", p->secao->nome,
            p->secao->local);
     imprimirListaMateriais(p->secao);
     p = p->prox;
