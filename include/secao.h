@@ -1,32 +1,24 @@
 #ifndef SECAO_H
 #define SECAO_H
 
-#include "listaencadeada.h" // Inclui a definição da estrutura ListaSecoes
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+typedef struct material Material;
 
-// Definição da estrutura NoMaterial para a lista de materiais
-typedef struct no_material NoMaterial;
+// Estrutura para representar uma sessão
+typedef struct Secao {
+    char nome[50];
+    char localizacao[50];
+    Material *materiais;
+    struct Secao *prox;
+} Secao;
 
-// Definição da estrutura Secao
-struct secao {
-  char nome[50];          // Nome da seção
-  char local[50];         // Localização da seção
-  NoMaterial *materiais;  // Ponteiro para a lista de materiais na seção
-};
+// Protótipos das funções relacionadas a sessões
+void adicionarSecao(Secao **head);
+void removerSecao(Secao **head);
+void listarSecoes(Secao *head);
+void salvarSecoes(Secao *head);
+void carregarSecoes(Secao **head);
+void salvarDados(Secao *head);
+void carregarSecoesMateriais(Secao **head, Material **materiais);
 
-typedef struct secao Secao; // Define o tipo Secao
-
-/**
- * @brief Cria uma nova seção e adiciona à lista de seções.
- * 
- * @param nome Nome da nova seção.
- * @param local Localização da nova seção.
- * @param lista Ponteiro para a lista de seções onde a nova seção será adicionada.
- * @return ListaSecoes* Ponteiro para a lista de seções atualizada.
- */
-ListaSecoes *criarSecao(char nome[50], char local[50], ListaSecoes *lista);
-
-#endif
+#endif /* SESSAO_H */
 
