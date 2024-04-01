@@ -1,148 +1,139 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "../include/materiais.h"
 #include "../include/secao.h"
 
-// Função para adicionar um novo material a uma seção de forma ordenada
-void adicionar_material(Secao *secao, char nome[50], char tipo[50], float preco, int qtdEstoque) {
-    // Aloca memória para o novo material
+void adicionarMaterial(Material **head, Secao **secoes) {
+    if (*secoes == NULL) {
+        printf("Erro: Não há seções para adicionar materiais.\n");
+        return;
+    }
+
+    char nomeSecao[50];
+    printf("Digite o nome da seção para adicionar o material: ");
+    scanf(" %[^\n]", nomeSecao);
+
+    Secao *secaoAtual = *secoes;
+    while (secaoAtual != NULL && strcmp(secaoAtual->nome, nomeSecao) != 0) {
+        secaoAtual = secaoAtual->prox;
+    }
+
+    if (secaoAtual == NULL) {
+        printf("Erro: Seção não encontrada.\n");
+        return;
+    }
+
     Material *novoMaterial = (Material *)malloc(sizeof(Material));
     if (novoMaterial == NULL) {
         printf("Erro: Não foi possível alocar memória para o novo material.\n");
         return;
     }
 
-    // Copia os dados do material para a estrutura
-    strcpy(novoMaterial->nome, nome);
-    strcpy(novoMaterial->tipo, tipo);
-    novoMaterial->preco = preco;
-    novoMaterial->qtdEstoque = qtdEstoque;
+    printf("Digite o nome do material: ");
+    scanf(" %[^\n]", novoMaterial->nome);
+    printf("Digite o tipo do material: ");
+    scanf(" %[^\n]", novoMaterial->tipo);
+    printf("Digite o preço do material: ");
+    scanf("%f", &novoMaterial->preco);
+    printf("Digite a quantidade em estoque do material: ");
+    scanf("%d", &novoMaterial->quantidade);
 
-    // Cria um novo nó para o material e o adiciona à lista de materiais da seção
-    NoMaterial *novoNo = (NoMaterial *)malloc(sizeof(NoMaterial));
-    if (novoNo == NULL) {
-        printf("Erro: Não foi possível alocar memória para o novo nó de material.\n");
-        free(novoMaterial);
-        return;
-    }
-    novoNo->material = novoMaterial;
-    novoNo->prox = NULL;
+    novoMaterial->prox = secaoAtual->materiais;
+    secaoAtual->materiais = novoMaterial;
 
-    // Verifica se a lista de materiais da seção está vazia
-    if (secao->materiais == NULL) {
-        secao->materiais = novoNo; // Se estiver vazia, o novo nó é o primeiro da lista
-        novoNo->ant = NULL;
-    } else {
-        // Se não estiver vazia, percorre a lista até encontrar o último nó
-        NoMaterial *atual = secao->materiais;
-        while (atual->prox != NULL) {
-            atual = atual->prox;
-        }
-        // Adiciona o novo nó como o próximo do último nó da lista
-        atual->prox = novoNo;
-        novoNo->ant = atual;
-    }
-
-    // Ordena a lista de materiais da seção após adicionar o novo material
-    ordenarMateriais(secao);
+    printf("Material adicionado com sucesso à seção %s.\n", nomeSecao);
 }
 
 
-
-void remover_material(Material *material, Secao *secao) {
-    if (secao->materiais == NULL) {
-        printf("A lista de materiais está vazia na seção %s.\n", secao->nome);
+void removerMaterial(Material **head) {
+    if (*head == NULL) {
+        printf("Erro: Não há materiais para remover.\n");
         return;
     }
 
-    NoMaterial *atual = secao->materiais;
-    NoMaterial *anterior = NULL;
-    
-    do {
-        if (strcmp(atual->material->nome, material->nome) == 0 &&
-            strcmp(atual->material->tipo, material->tipo) == 0) {
-            if (atual->prox == atual) { // Único nó na lista
-                secao->materiais = NULL;
-            } else {
-                atual->ant->prox = atual->prox;
-                atual->prox->ant = atual->ant;
-                if (secao->materiais == atual) { // Se o nó removido é o primeiro
-                    secao->materiais = atual->prox;
-                }
-            }
-            printf("Material removido com sucesso da seção %s!\n", secao->nome);
-            free(atual->material); // Liberar memória do material
-            free(atual);            // Liberar memória do nó
-            return;
-        }
-        anterior = atual;  
+    char nome[50];
+    printf("Digite o nome do material a ser removido: ");
+    scanf(" %[^\n]", nome);
+
+    Material *atual = *head;
+    Material *anterior = NULL;
+
+    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+        anterior = atual;
         atual = atual->prox;
-    } while (atual != secao->materiais);
+    }
 
-    printf("Material não encontrado na seção %s.\n", secao->nome);
-}
-
-
-
-void buscar_material(Material *material, ListaSecoes *listaSecoes) {
-  ListaSecoes *p = listaSecoes;
-
-  while (p != NULL) {
-    NoMaterial *atualMaterial = p->secao->materiais;
-
-    while (atualMaterial != NULL) {
-      if (strcmp(atualMaterial->material->nome, material->nome) == 0 &&
-          strcmp(atualMaterial->material->tipo, material->tipo) == 0) {
-        printf("Material encontrado na seção %s!\n", p->secao->nome);
-        printf("\t Nome: %s\n", atualMaterial->material->nome);
-        printf("\t Tipo: %s\n", atualMaterial->material->tipo);
-        printf("\t Preço: %.2f\n", atualMaterial->material->preco);
-        printf("\t Quantidade em estoque: %d\n",
-               atualMaterial->material->qtdEstoque);
+    if (atual == NULL) {
+        printf("Erro: Material não encontrado.\n");
         return;
-      }
-      atualMaterial = atualMaterial->prox;
-    }
-    p = p->prox;
-  }
-
-  printf("Material não encontrado em nenhuma seção.\n");
-}
-
-void imprimirListaMateriais(Secao *secao) {
-  if (secao->materiais == NULL) {
-    printf("A lista de materiais está vazia na seção %s.\n", secao->nome);
-    return;
-  }
-
-  NoMaterial *atual = secao->materiais;
-  while (atual != NULL) {
-    printf("\t Material: %s \t Tipo: %s \t Preço: %.2f \t Quantidade: %d\n",
-           atual->material->nome, atual->material->tipo, atual->material->preco,
-           atual->material->qtdEstoque);
-    atual = atual->prox;
-  }
-}
-
-void ordenarMateriais(Secao *secao) {
-    if (secao == NULL || secao->materiais == NULL || secao->materiais->prox == NULL) {
-        return; 
     }
 
-    NoMaterial *current = secao->materiais->prox->prox;
-    while (current != NULL) {
-        Material *materialAtual = current->material;
-        NoMaterial *prev = current->ant;
-
-        while (prev != NULL && strcmp(materialAtual->nome, prev->material->nome) < 0) {
-            prev->prox->material = prev->material;
-            prev = prev->ant;
-        }
-        if (prev == NULL) {
-            secao->materiais->material = materialAtual;
-        } else {
-            prev->prox->material = materialAtual;
-        }
-
-        current = current->prox;
+    if (anterior == NULL) {
+        *head = atual->prox;
+    } else {
+        anterior->prox = atual->prox;
     }
+
+    free(atual);
+    printf("Material removido com sucesso.\n");
 }
 
+void realizarVenda(Material **head) {
+    if (*head == NULL) {
+        printf("Erro: Não há materiais para vender.\n");
+        return;
+    }
+
+    char nome[50];
+    printf("Digite o nome do material a ser vendido: ");
+    scanf(" %[^\n]", nome);
+
+    Material *atual = *head;
+    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+        atual = atual->prox;
+    }
+
+    if (atual == NULL) {
+        printf("Erro: Material não encontrado.\n");
+        return;
+    }
+
+    int quantidade;
+    printf("Digite a quantidade a ser vendida: ");
+    scanf("%d", &quantidade);
+
+    if (atual->quantidade < quantidade) {
+        printf("Erro: Não há quantidade suficiente em estoque.\n");
+        return;
+    }
+
+    atual->quantidade -= quantidade;
+    printf("Venda realizada com sucesso.\n");
+}
+
+void buscarMaterial(Material *head) {
+    if (head == NULL) {
+        printf("Erro: Não há materiais cadastrados.\n");
+        return;
+    }
+
+    char nome[50];
+    printf("Digite o nome do material a ser buscado: ");
+    scanf(" %[^\n]", nome);
+
+    Material *atual = head;
+    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
+        atual = atual->prox;
+    }
+
+    if (atual == NULL) {
+        printf("Erro: Material não encontrado.\n");
+        return;
+    }
+
+    printf("Nome: %s\n", atual->nome);
+    printf("Tipo: %s\n", atual->tipo);
+    printf("Preço: %.2f\n", atual->preco);
+    printf("Quantidade em estoque: %d\n", atual->quantidade);
+}
