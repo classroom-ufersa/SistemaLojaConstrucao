@@ -16,7 +16,7 @@ typedef struct material {
 void adicionarMaterial(Material **head, Secao **secoes);
 void removerMaterial(Material **head);
 void realizarVenda(Material **head);
-void buscarMaterial(Material *head);
+void buscarMaterial(Secao *head);
 
 #endif /* MATERIAL_H */
 

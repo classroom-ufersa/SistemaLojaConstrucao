@@ -112,28 +112,28 @@ void realizarVenda(Material **head) {
     printf("Venda realizada com sucesso.\n");
 }
 
-void buscarMaterial(Material *head) {
-    if (head == NULL) {
-        printf("Erro: Não há materiais cadastrados.\n");
-        return;
-    }
-
+void buscarMaterial(Secao *head) {
     char nome[50];
     printf("Digite o nome do material a ser buscado: ");
     scanf(" %[^\n]", nome);
 
-    Material *atual = head;
-    while (atual != NULL && strcmp(atual->nome, nome) != 0) {
-        atual = atual->prox;
+    Secao *atualSecao = head;
+    while (atualSecao != NULL) {
+        Material *atualMaterial = atualSecao->materiais;
+        while (atualMaterial != NULL) {
+            if (strcmp(atualMaterial->nome, nome) == 0) {
+                printf("Material encontrado na seção %s:\n", atualSecao->nome);
+                printf("Nome: %s\n", atualMaterial->nome);
+                printf("Tipo: %s\n", atualMaterial->tipo);
+                printf("Preço: %.2f\n", atualMaterial->preco);
+                printf("Quantidade em estoque: %d\n", atualMaterial->quantidade);
+                return; // Encerra a busca após encontrar o material
+            }
+            atualMaterial = atualMaterial->prox;
+        }
+        atualSecao = atualSecao->prox;
     }
 
-    if (atual == NULL) {
-        printf("Erro: Material não encontrado.\n");
-        return;
-    }
-
-    printf("Nome: %s\n", atual->nome);
-    printf("Tipo: %s\n", atual->tipo);
-    printf("Preço: %.2f\n", atual->preco);
-    printf("Quantidade em estoque: %d\n", atual->quantidade);
+    printf("Erro: Material não encontrado.\n");
 }
+
