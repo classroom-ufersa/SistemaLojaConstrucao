@@ -11,13 +11,18 @@ typedef struct Secao {
     struct Secao *prox;
 } Secao;
 
-// Protótipos das funções relacionadas a sessões
 void adicionarSecao(Secao **head);
+
 void removerSecao(Secao **head);
+
 void listarSecoes(Secao *head);
+
 void salvarSecoes(Secao *head);
+
 void carregarSecoes(Secao **head);
+
 void salvarDados(Secao *head);
+
 void carregarSecoesMateriais(Secao **head, Material **materiais);
 
 #endif /* SESSAO_H */

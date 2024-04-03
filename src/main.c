@@ -19,21 +19,26 @@ int main() {
     switch (escolha) {
     case 1:
       adicionarSecao(&secoes);
+      salvarDados(secoes);
       break;
     case 2:
       adicionarMaterial(&materiais, &secoes);
+      salvarDados(secoes);
       break;
     case 3:
       buscarMaterial(secoes);
       break;
     case 4:
-      realizarVenda(&materiais);
+      realizarVenda(secoes);
+      salvarDados(secoes);
       break;
     case 5:
-      removerMaterial(&materiais);
+      removerMaterial(secoes);
+      salvarDados(secoes);
       break;
     case 6:
       removerSecao(&secoes);
+      salvarDados(secoes);
       break;
     case 7:
       listarSecoes(secoes);

@@ -3,7 +3,6 @@
 
 #include "secao.h"
 
-// Estrutura para representar um material
 typedef struct material {
     char nome[50];
     char tipo[50];
@@ -12,11 +11,46 @@ typedef struct material {
     struct material *prox;
 } Material;
 
-// Protótipos das funções relacionadas a materiais
+
+/*  
+ * @brief Funcao para adicionar um novo material para a secao 
+ *
+ * @param Material **head Lista encadeada de materiais 
+ * @param Secao **secoes Lista encadeada de secoes
+ * 
+ * @return void
+ *  */
 void adicionarMaterial(Material **head, Secao **secoes);
-void removerMaterial(Material **head);
-void realizarVenda(Material **head);
+
+
+/*  
+ * @brief Funcao para buscar um novo material na lista de secoes
+ *
+ * @param head Lista encadeada de secoes
+ * 
+ * @return void
+ *  */
 void buscarMaterial(Secao *head);
+
+/*  
+ * @brief Funcao para realizar a venda de um material 
+ * 
+ * @param head Lista encadeada de secoes
+ *
+ * @return void
+ *  */
+void realizarVenda(Secao *head);
+
+/*  
+ * @brief Funcao para remover um material
+ * 
+ * @param head Lista encadeada de secoes
+ * 
+ * @return void
+ *
+ *  */
+void removerMaterial(Secao *head);
+
 
 #endif /* MATERIAL_H */
 
