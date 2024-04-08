@@ -16,7 +16,6 @@ void adicionarMaterial(Secao **secoes) {
   printf("Digite o nome da secao para adicionar o material: ");
   scanf(" %[^\n]", nomeSecao);
   *nomeSecao = *formatarString(nomeSecao);
-  printf(" %s", nomeSecao);
   Secao *secaoAtual = *secoes;
   while (secaoAtual != NULL && strcmp(secaoAtual->nome, nomeSecao) != 0) {
     secaoAtual = secaoAtual->prox;
