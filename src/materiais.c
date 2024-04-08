@@ -1,5 +1,6 @@
 #include "../include/materiais.h"
 #include "../include/secao.h"
+#include "../include/sistema.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,7 +15,8 @@ void adicionarMaterial(Secao **secoes) {
     char nomeSecao[50];
     printf("Digite o nome da seção para adicionar o material: ");
     scanf(" %[^\n]", nomeSecao);
-
+    *nomeSecao = *formatarString(nomeSecao);  
+    printf(" %s", nomeSecao);    
     Secao *secaoAtual = *secoes;
     while (secaoAtual != NULL && strcmp(secaoAtual->nome, nomeSecao) != 0) {
         secaoAtual = secaoAtual->prox;
@@ -35,6 +37,8 @@ void adicionarMaterial(Secao **secoes) {
     do {
         printf("Digite o nome do material: ");
         scanf(" %[^\n]", novoMaterial->nome);
+        
+        *novoMaterial->nome = *formatarString(novoMaterial->nome);  
         int i;
         for (i = 0; novoMaterial->nome[i] != '\0'; i++) {
             if (!isalpha(novoMaterial->nome[i]) && novoMaterial->nome[i] != ' ') {
@@ -49,6 +53,7 @@ void adicionarMaterial(Secao **secoes) {
     do {
         printf("Digite o tipo do material: ");
         scanf(" %[^\n]", novoMaterial->tipo);
+        *novoMaterial->tipo = *formatarString(novoMaterial->nome);
         int i;
         for (i = 0; novoMaterial->tipo[i] != '\0'; i++) {
             if (!isalpha(novoMaterial->tipo[i]) && novoMaterial->tipo[i] != ' ') {
@@ -110,7 +115,7 @@ void removerMaterial(Secao *head) {
     char nomeMaterial[50];
     printf("Digite o nome do material que deseja remover: ");
     scanf("%s", nomeMaterial);
-
+    *nomeMaterial = *formatarString(nomeMaterial);
     // Percorre a lista de seções
     Secao *atualSecao = head;
     while (atualSecao != NULL) {
@@ -156,7 +161,7 @@ void realizarVenda(Secao *head) {
     char nomeMaterial[50];
     printf("Digite o nome do material a ser vendido: ");
     scanf(" %[^\n]", nomeMaterial);
-
+    *nomeMaterial = *formatarString(nomeMaterial);
     Secao *atualSecao = head;
     while (atualSecao != NULL) {
         Material *atualMaterial = atualSecao->materiais;
@@ -188,7 +193,7 @@ void buscarMaterial(Secao *head) {
   char nome[50];
   printf("Digite o nome do material a ser buscado: ");
   scanf(" %[^\n]", nome);
-
+  *nome = *formatarString(nome);
   Secao *atualSecao = head;
   while (atualSecao != NULL) {
     Material *atualMaterial = atualSecao->materiais;

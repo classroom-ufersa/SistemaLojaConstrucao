@@ -1,21 +1,17 @@
 #include "../include/materiais.h"
-#include "../include/menu.h"
 #include "../include/secao.h"
+#include "../include/sistema.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 int main() {
   Secao *secoes = NULL;
   Material *materiais = NULL;
-
-  // Carregar dados das seções e materiais do arquivo único
-  carregarSecoesMateriais(&secoes);
-
+  carregarDados(&secoes);
   int escolha;
   do {
     menu();
-    printf("\nEscolha uma opção: ");
-    scanf("%d", &escolha);
+    escolha = lerNumeroInteiro();
     switch (escolha) {
     case 1:
       adicionarSecao(&secoes);
@@ -47,7 +43,7 @@ int main() {
       printf("Saindo do programa...\n");
       break;
     default:
-      printf("Opção inválida. Por favor, tente novamente.\n");
+      printf("Opçao invalida. Por favor, tente novamente.\n");
     }
   } while (escolha != 8);
 

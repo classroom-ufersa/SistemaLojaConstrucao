@@ -1,5 +1,6 @@
 #include "../include/secao.h"
 #include "../include/materiais.h"
+#include "../include/sistema.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,8 +24,8 @@ void adicionarSecao(Secao **head) {
     printf("Erro: Nome da seção inválido.\n");
     free(novaSecao); // Liberar memória alocada
     return;
-  }
-
+  } 
+  *novaSecao->nome = *formatarString(novaSecao->nome);
   // Verificar se o nome da seção contém apenas letras
   for (int i = 0; novaSecao->nome[i] != '\0'; i++) {
     if (!isalpha(novaSecao->nome[i])) {
@@ -33,7 +34,6 @@ void adicionarSecao(Secao **head) {
       return;
     }
   }
-
   printf("Digite a localização da seção: ");
   if (scanf(" %[^\n]", novaSecao->localizacao) != 1 || novaSecao->localizacao[0] == '\0') {
     printf("Erro: Localização da seção inválida.\n");
@@ -80,7 +80,7 @@ void removerSecao(Secao **head) {
   char nome[50];
   printf("Digite o nome da seção a ser removida: ");
   scanf(" %[^\n]", nome);
-
+  *nome = *formatarString(nome);
   Secao *atual = *head;
   Secao *anterior = NULL;
 
@@ -174,7 +174,7 @@ void adicionarMaterialArgs(Material **head, char nome[], char tipo[],
   printf("Material adicionado com sucesso.\n");
 }
 
-void carregarSecoesMateriais(Secao **head) {
+void carregarDados(Secao **head) {
   FILE *arquivo = fopen("dados.txt", "r");
   if (arquivo == NULL) {
     printf("Erro: Não foi possível abrir o arquivo para leitura.\n");
