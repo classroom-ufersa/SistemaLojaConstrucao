@@ -3,77 +3,100 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 void adicionarMaterial(Secao **secoes) {
-  if (*secoes == NULL) {
-    printf("Erro: Não há seções para adicionar materiais.\n");
-    return;
-  }
-
-  char nomeSecao[50];
-  printf("Digite o nome da seção para adicionar o material: ");
-  scanf(" %[^\n]", nomeSecao);
-
-  Secao *secaoAtual = *secoes;
-  while (secaoAtual != NULL && strcmp(secaoAtual->nome, nomeSecao) != 0) {
-    secaoAtual = secaoAtual->prox;
-  }
-
-  if (secaoAtual == NULL) {
-    printf("Erro: Seção não encontrada.\n");
-    return;
-  }
-
-  Material *novoMaterial = (Material *)malloc(sizeof(Material));
-  if (novoMaterial == NULL) {
-    printf("Erro: Não foi possível alocar memória para o novo material.\n");
-    return;
-  }
-
-  do {
-    printf("Digite o nome do material: ");
-    scanf(" %[^\n]", novoMaterial->nome);
-    if (strlen(novoMaterial->nome) == 0) {
-      printf("Erro: Nome do material não pode ser vazio.\n");
+   if (*secoes == NULL) {
+        printf("Erro: Não há seções para adicionar materiais.\n");
+        return;
     }
-  } while (strlen(novoMaterial->nome) == 0);
 
-  do {
-    printf("Digite o tipo do material: ");
-    scanf(" %[^\n]", novoMaterial->tipo);
-    if (strlen(novoMaterial->tipo) == 0) {
-      printf("Erro: Tipo do material não pode ser vazio.\n");
+    char nomeSecao[50];
+    printf("Digite o nome da seção para adicionar o material: ");
+    scanf(" %[^\n]", nomeSecao);
+
+    Secao *secaoAtual = *secoes;
+    while (secaoAtual != NULL && strcmp(secaoAtual->nome, nomeSecao) != 0) {
+        secaoAtual = secaoAtual->prox;
     }
-  } while (strlen(novoMaterial->tipo) == 0);
 
-  printf("Digite o preço do material: ");
-  scanf("%f", &novoMaterial->preco);
-
-  do {
-    printf("Digite a quantidade em estoque do material: ");
-    scanf("%d", &novoMaterial->quantidade);
-    if (novoMaterial->quantidade < 0) {
-      printf("Erro: Quantidade em estoque não pode ser negativa.\n");
+    if (secaoAtual == NULL) {
+        printf("Erro: Seção não encontrada.\n");
+        return;
     }
-  } while (novoMaterial->quantidade < 0);
 
-  // Encontrar o ponto de inserção correto na lista de materiais da seção
-  Material *atual = secaoAtual->materiais;
-  Material *anterior = NULL;
-  while (atual != NULL && strcmp(novoMaterial->nome, atual->nome) > 0) {
-    anterior = atual;
-    atual = atual->prox;
-  }
+    Material *novoMaterial = (Material *)malloc(sizeof(Material));
+    if (novoMaterial == NULL) {
+        printf("Erro: Não foi possível alocar memória para o novo material.\n");
+        return;
+    }
 
-  // Inserir o novo material na posição correta
-  novoMaterial->prox = atual;
-  if (anterior == NULL) {
-    secaoAtual->materiais = novoMaterial;
-  } else {
-    anterior->prox = novoMaterial;
-  }
+    // Validação do nome do material
+    do {
+        printf("Digite o nome do material: ");
+        scanf(" %[^\n]", novoMaterial->nome);
+        int i;
+        for (i = 0; novoMaterial->nome[i] != '\0'; i++) {
+            if (!isalpha(novoMaterial->nome[i]) && novoMaterial->nome[i] != ' ') {
+                printf("Erro: O nome do material não pode conter caracteres especiais ou números.\n");
+                novoMaterial->nome[0] = '\0';
+                break;
+            }
+        }
+    } while (novoMaterial->nome[0] == '\0');
 
-  printf("Material adicionado com sucesso à seção %s.\n", nomeSecao);
+    // Validação do tipo do material
+    do {
+        printf("Digite o tipo do material: ");
+        scanf(" %[^\n]", novoMaterial->tipo);
+        int i;
+        for (i = 0; novoMaterial->tipo[i] != '\0'; i++) {
+            if (!isalpha(novoMaterial->tipo[i]) && novoMaterial->tipo[i] != ' ') {
+                printf("Erro: O tipo do material não pode conter caracteres especiais ou números.\n");
+                novoMaterial->tipo[0] = '\0';
+                break;
+            }
+        }
+    } while (novoMaterial->tipo[0] == '\0');
+
+    // Validação do preço do material
+    do {
+        printf("Digite o preço do material: ");
+        if (scanf("%f", &novoMaterial->preco) != 1 || novoMaterial->preco <= 0) {
+            printf("Erro: Preço do material inválido.\n");
+            while (getchar() != '\n'); // Limpar o buffer de entrada
+        }
+    } while (novoMaterial->preco <= 0);
+
+    // Validação da quantidade em estoque do material
+    int quantidadeValida = 0;
+    while (!quantidadeValida) {
+        printf("Digite a quantidade em estoque do material: ");
+        if (scanf("%d", &novoMaterial->quantidade) == 1 && novoMaterial->quantidade >= 0) {
+            quantidadeValida = 1;
+        } else {
+            printf("Erro: Quantidade em estoque do material inválida.\n");
+            while (getchar() != '\n'); // Limpar o buffer de entrada
+        }
+    }
+
+    // Encontrar o ponto de inserção correto na lista de materiais da seção
+    Material *atual = secaoAtual->materiais;
+    Material *anterior = NULL;
+    while (atual != NULL && strcmp(novoMaterial->nome, atual->nome) > 0) {
+        anterior = atual;
+        atual = atual->prox;
+    }
+
+    // Inserir o novo material na posição correta
+    novoMaterial->prox = atual;
+    if (anterior == NULL) {
+        secaoAtual->materiais = novoMaterial;
+    } else {
+        anterior->prox = novoMaterial;
+    }
+
+    printf("Material adicionado com sucesso à seção %s.\n", nomeSecao);
 }
 
 // Função para remover um material de uma seção

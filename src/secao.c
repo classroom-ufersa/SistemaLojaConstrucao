@@ -3,8 +3,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 void adicionarSecao(Secao **head) {
+  // Verificar se o ponteiro para a lista encadeada é nulo
+  if (head == NULL) {
+    printf("Erro: Ponteiro para a lista de seções é nulo.\n");
+    return;
+  }
+
   Secao *novaSecao = (Secao *)malloc(sizeof(Secao));
   if (novaSecao == NULL) {
     printf("Erro: Não foi possível alocar memória para a nova seção.\n");
@@ -12,12 +19,41 @@ void adicionarSecao(Secao **head) {
   }
 
   printf("Digite o nome da seção: ");
-  scanf(" %[^\n]", novaSecao->nome);
+  if (scanf(" %[^\n]", novaSecao->nome) != 1 || novaSecao->nome[0] == '\0') {
+    printf("Erro: Nome da seção inválido.\n");
+    free(novaSecao); // Liberar memória alocada
+    return;
+  }
+
+  // Verificar se o nome da seção contém apenas letras
+  for (int i = 0; novaSecao->nome[i] != '\0'; i++) {
+    if (!isalpha(novaSecao->nome[i])) {
+      printf("Erro: O nome da seção não pode conter números.\n");
+      free(novaSecao); // Liberar memória alocada
+      return;
+    }
+  }
+
   printf("Digite a localização da seção: ");
-  scanf(" %[^\n]", novaSecao->localizacao);
+  if (scanf(" %[^\n]", novaSecao->localizacao) != 1 || novaSecao->localizacao[0] == '\0') {
+    printf("Erro: Localização da seção inválida.\n");
+    free(novaSecao); // Liberar memória alocada
+    return;
+  }
+
+  // Verificar se a seção já existe na lista
+  Secao *atual = *head;
+  while (atual != NULL) {
+    if (strcmp(novaSecao->nome, atual->nome) == 0) {
+      printf("Erro: Já existe uma seção com este nome.\n");
+      free(novaSecao); // Liberar memória alocada
+      return;
+    }
+    atual = atual->prox;
+  }
 
   // Encontrar o ponto de inserção correto
-  Secao *atual = *head;
+  atual = *head;
   Secao *anterior = NULL;
   while (atual != NULL && strcmp(novaSecao->nome, atual->nome) > 0) {
     anterior = atual;
@@ -138,7 +174,7 @@ void adicionarMaterialArgs(Material **head, char nome[], char tipo[],
   printf("Material adicionado com sucesso.\n");
 }
 
-void carregarSecoesMateriais(Secao **head, Material **materiais) {
+void carregarSecoesMateriais(Secao **head) {
   FILE *arquivo = fopen("dados.txt", "r");
   if (arquivo == NULL) {
     printf("Erro: Não foi possível abrir o arquivo para leitura.\n");

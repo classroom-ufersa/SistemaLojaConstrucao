@@ -9,7 +9,7 @@ int main() {
   Material *materiais = NULL;
 
   // Carregar dados das seções e materiais do arquivo único
-  carregarSecoesMateriais(&secoes, &materiais);
+  carregarSecoesMateriais(&secoes);
 
   int escolha;
   do {
@@ -22,7 +22,7 @@ int main() {
       salvarDados(secoes);
       break;
     case 2:
-      adicionarMaterial(&materiais, &secoes);
+      adicionarMaterial(&secoes);
       salvarDados(secoes);
       break;
     case 3:
