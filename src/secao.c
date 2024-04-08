@@ -1,58 +1,59 @@
 #include "../include/secao.h"
 #include "../include/materiais.h"
 #include "../include/sistema.h"
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 void adicionarSecao(Secao **head) {
-  // Verificar se o ponteiro para a lista encadeada é nulo
+  // Verificar se o ponteiro para a lista encadeada e nulo
   if (head == NULL) {
-    printf("Erro: Ponteiro para a lista de seções é nulo.\n");
+    printf("Erro: Ponteiro para a lista de secoes e nulo.\n");
     return;
   }
 
   Secao *novaSecao = (Secao *)malloc(sizeof(Secao));
   if (novaSecao == NULL) {
-    printf("Erro: Não foi possível alocar memória para a nova seção.\n");
+    printf("Erro: Nao foi possivel alocar memoria para a nova secao.\n");
     return;
   }
 
-  printf("Digite o nome da seção: ");
+  printf("Digite o nome da secao: ");
   if (scanf(" %[^\n]", novaSecao->nome) != 1 || novaSecao->nome[0] == '\0') {
-    printf("Erro: Nome da seção inválido.\n");
-    free(novaSecao); // Liberar memória alocada
+    printf("Erro: Nome da secao invalido.\n");
+    free(novaSecao); // Liberar memoria alocada
     return;
-  } 
+  }
   *novaSecao->nome = *formatarString(novaSecao->nome);
-  // Verificar se o nome da seção contém apenas letras
+  // Verificar se o nome da secao contem apenas letras
   for (int i = 0; novaSecao->nome[i] != '\0'; i++) {
     if (!isalpha(novaSecao->nome[i])) {
-      printf("Erro: O nome da seção não pode conter números.\n");
-      free(novaSecao); // Liberar memória alocada
+      printf("Erro: O nome da secao nao pode conter numeros.\n");
+      free(novaSecao); // Liberar memoria alocada
       return;
     }
   }
-  printf("Digite a localização da seção: ");
-  if (scanf(" %[^\n]", novaSecao->localizacao) != 1 || novaSecao->localizacao[0] == '\0') {
-    printf("Erro: Localização da seção inválida.\n");
-    free(novaSecao); // Liberar memória alocada
+  printf("Digite a localizacao da secao: ");
+  if (scanf(" %[^\n]", novaSecao->localizacao) != 1 ||
+      novaSecao->localizacao[0] == '\0') {
+    printf("Erro: Localizacao da secao invalida.\n");
+    free(novaSecao); // Liberar memoria alocada
     return;
   }
 
-  // Verificar se a seção já existe na lista
+  // Verificar se a secao ja existe na lista
   Secao *atual = *head;
   while (atual != NULL) {
     if (strcmp(novaSecao->nome, atual->nome) == 0) {
-      printf("Erro: Já existe uma seção com este nome.\n");
-      free(novaSecao); // Liberar memória alocada
+      printf("Erro: Ja existe uma secao com este nome.\n");
+      free(novaSecao); // Liberar memoria alocada
       return;
     }
     atual = atual->prox;
   }
 
-  // Encontrar o ponto de inserção correto
+  // Encontrar o ponto de insercao correto
   atual = *head;
   Secao *anterior = NULL;
   while (atual != NULL && strcmp(novaSecao->nome, atual->nome) > 0) {
@@ -60,7 +61,7 @@ void adicionarSecao(Secao **head) {
     atual = atual->prox;
   }
 
-  // Inserir a nova seção na posição correta
+  // Inserir a nova secao na posicao correta
   novaSecao->prox = atual;
   if (anterior == NULL) {
     *head = novaSecao;
@@ -68,17 +69,17 @@ void adicionarSecao(Secao **head) {
     anterior->prox = novaSecao;
   }
 
-  printf("Seção adicionada com sucesso.\n");
+  printf("Secao adicionada com sucesso.\n");
 }
 
 void removerSecao(Secao **head) {
   if (*head == NULL) {
-    printf("Erro: Não há seções para remover.\n");
+    printf("Erro: Nao ha secoes para remover.\n");
     return;
   }
 
   char nome[50];
-  printf("Digite o nome da seção a ser removida: ");
+  printf("Digite o nome da secao a ser removida: ");
   scanf(" %[^\n]", nome);
   *nome = *formatarString(nome);
   Secao *atual = *head;
@@ -90,7 +91,7 @@ void removerSecao(Secao **head) {
   }
 
   if (atual == NULL) {
-    printf("Erro: Seção não encontrada.\n");
+    printf("Erro: Secao nao encontrada.\n");
     return;
   }
 
@@ -101,24 +102,24 @@ void removerSecao(Secao **head) {
   }
 
   free(atual);
-  printf("Seção removida com sucesso.\n");
+  printf("Secao removida com sucesso.\n");
 }
 
 void listarSecoes(Secao *head) {
   if (head == NULL) {
-    printf("Erro: Não há seções cadastradas.\n");
+    printf("Erro: Nao ha secoes cadastradas.\n");
     return;
   }
 
-  printf("Lista de seções:\n");
+  printf("Lista de secoes:\n");
   Secao *atualSecao = head;
   while (atualSecao != NULL) {
-    printf("Nome da seção: %s, Localização: %s\n", atualSecao->nome,
+    printf("Nome da secao: %s, Localizacao: %s\n", atualSecao->nome,
            atualSecao->localizacao);
     printf("Materiais:\n");
     Material *atualMaterial = atualSecao->materiais;
     while (atualMaterial != NULL) {
-      printf("  Nome: %s, Tipo: %s, Preço: %.2f, Quantidade: %d\n",
+      printf("  Nome: %s, Tipo: %s, Preco: %.2f, Quantidade: %d\n",
              atualMaterial->nome, atualMaterial->tipo, atualMaterial->preco,
              atualMaterial->quantidade);
       atualMaterial = atualMaterial->prox;
@@ -130,20 +131,20 @@ void listarSecoes(Secao *head) {
 void salvarDados(Secao *head) {
   FILE *arquivo = fopen("dados.txt", "w");
   if (arquivo == NULL) {
-    printf("Erro: Não foi possível abrir o arquivo para escrita.\n");
+    printf("Erro: Nao foi possivel abrir o arquivo para escrita.\n");
     return;
   }
 
   Secao *atualSecao = head;
   while (atualSecao != NULL) {
-    fprintf(arquivo, "Seção: %s\n", atualSecao->nome);
-    fprintf(arquivo, "Localização: %s\n", atualSecao->localizacao);
+    fprintf(arquivo, "Secao: %s\n", atualSecao->nome);
+    fprintf(arquivo, "Localizacao: %s\n", atualSecao->localizacao);
 
     Material *atualMaterial = atualSecao->materiais;
     while (atualMaterial != NULL) {
       fprintf(arquivo, "  Material: %s\n", atualMaterial->nome);
       fprintf(arquivo, "    Tipo: %s\n", atualMaterial->tipo);
-      fprintf(arquivo, "    Preço: %.2f\n", atualMaterial->preco);
+      fprintf(arquivo, "    Preco: %.2f\n", atualMaterial->preco);
       fprintf(arquivo, "    Quantidade: %d\n", atualMaterial->quantidade);
       atualMaterial = atualMaterial->prox;
     }
@@ -159,7 +160,7 @@ void adicionarMaterialArgs(Material **head, char nome[], char tipo[],
                            float preco, int quantidade) {
   Material *novoMaterial = (Material *)malloc(sizeof(Material));
   if (novoMaterial == NULL) {
-    printf("Erro: Não foi possível alocar memória para o novo material.\n");
+    printf("Erro: Nao foi possivel alocar memoria para o novo material.\n");
     return;
   }
 
@@ -177,7 +178,7 @@ void adicionarMaterialArgs(Material **head, char nome[], char tipo[],
 void carregarDados(Secao **head) {
   FILE *arquivo = fopen("dados.txt", "r");
   if (arquivo == NULL) {
-    printf("Erro: Não foi possível abrir o arquivo para leitura.\n");
+    printf("Erro: Nao foi possivel abrir o arquivo para leitura.\n");
     return;
   }
 
@@ -192,18 +193,18 @@ void carregarDados(Secao **head) {
   Secao *ultimaSecao = NULL;
 
   while (fgets(buffer, sizeof(buffer), arquivo) != NULL) {
-    if (sscanf(buffer, "Seção: %[^\n]", nomeSecao) == 1) {
-      // Adicionar uma nova seção à lista encadeada
+    if (sscanf(buffer, "Secao: %[^\n]", nomeSecao) == 1) {
+      // Adicionar uma nova secao a lista encadeada
       Secao *novaSecao = (Secao *)malloc(sizeof(Secao));
       if (novaSecao == NULL) {
-        printf("Erro: Não foi possível alocar memória para a nova seção.\n");
+        printf("Erro: Nao foi possivel alocar memoria para a nova secao.\n");
         return;
       }
       strcpy(novaSecao->nome, nomeSecao);
 
       fgets(buffer, sizeof(buffer),
-            arquivo); // Ler a linha seguinte contendo a localização
-      sscanf(buffer, "Localização: %[^\n]", localizacaoSecao);
+            arquivo); // Ler a linha seguinte contendo a localizacao
+      sscanf(buffer, "Localizacao: %[^\n]", localizacaoSecao);
       strcpy(novaSecao->localizacao, localizacaoSecao);
 
       novaSecao->materiais = NULL;
@@ -216,10 +217,10 @@ void carregarDados(Secao **head) {
       }
       ultimaSecao = novaSecao;
     } else if (sscanf(buffer, "  Material: %[^\n]", nomeMaterial) == 1) {
-      // Adicionar um novo material à última seção criada
+      // Adicionar um novo material a ultima secao criada
       Material *novoMaterial = (Material *)malloc(sizeof(Material));
       if (novoMaterial == NULL) {
-        printf("Erro: Não foi possível alocar memória para o novo material.\n");
+        printf("Erro: Nao foi possivel alocar memoria para o novo material.\n");
         return;
       }
       strcpy(novoMaterial->nome, nomeMaterial);
@@ -230,8 +231,8 @@ void carregarDados(Secao **head) {
       strcpy(novoMaterial->tipo, tipoMaterial);
 
       fgets(buffer, sizeof(buffer),
-            arquivo); // Ler a linha seguinte contendo o preço e a quantidade
-      sscanf(buffer, "    Preço: %f", &precoMaterial);
+            arquivo); // Ler a linha seguinte contendo o preco e a quantidade
+      sscanf(buffer, "    Preco: %f", &precoMaterial);
       sscanf(buffer, "    Quantidade: %d", &quantidadeMaterial);
       novoMaterial->preco = precoMaterial;
       novoMaterial->quantidade = quantidadeMaterial;
