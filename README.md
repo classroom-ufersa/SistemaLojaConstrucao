@@ -1,5 +1,5 @@
 # Sistema de Gerenciamento de Loja de Material de Construção
-Este é um sistema desenvolvido em C para auxiliar na gestão de seções e materiais no estoque de uma loja de material de construção, desenvolvido para a disciplina de Algoritmos e Estruturas de Dados I.h
+Este é um sistema desenvolvido em C para auxiliar na gestão de seções e materiais no estoque de uma loja de material de construção, desenvolvido para a disciplina de Algoritmos e Estruturas de Dados I.
 
 ## Estrutura do Projeto:
 - include/: Este diretório contém os arquivos de cabeçalho necessários para o funcionamento do programa.
