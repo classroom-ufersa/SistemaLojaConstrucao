@@ -23,7 +23,7 @@ void carregarSecoes(Secao **head);
 
 void salvarDados(Secao *head);
 
-void carregarSecoesMateriais(Secao **head, Material **materiais);
+void carregarSecoesMateriais(Secao **head);
 
 #endif /* SESSAO_H */
 

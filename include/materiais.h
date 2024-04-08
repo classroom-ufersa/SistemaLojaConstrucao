@@ -20,7 +20,7 @@ typedef struct material {
  * 
  * @return void
  *  */
-void adicionarMaterial(Material **head, Secao **secoes);
+void adicionarMaterial(Secao **secoes);
 
 
 /*  
