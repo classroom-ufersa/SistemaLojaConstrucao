@@ -22,6 +22,12 @@ char *formatarString(char *str) {
     str[0] = toupper(str[0]);
   }
 
+  for (int i = 1; i < strlen(str); i++) {
+    if (!islower(str[i])) {
+      str[i] = tolower(str[i]);
+    }
+  }
+
   return str;
 }
 

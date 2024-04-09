@@ -26,14 +26,18 @@ void adicionarSecao(Secao **head) {
     return;
   }
   *novaSecao->nome = *formatarString(novaSecao->nome);
-  // Verificar se o nome da secao contem apenas letras
-  for (int i = 0; novaSecao->nome[i] != '\0'; i++) {
-    if (!isalpha(novaSecao->nome[i])) {
-      printf("Erro: O nome da secao nao pode conter numeros.\n");
+
+  int i = 0;
+  while (novaSecao->nome[i] != '\0') {
+    if (!isalpha(novaSecao->nome[i]) && novaSecao->nome[i] != ' ') {
+      printf("Erro: O nome da secao nao pode conter numeros, acentos ou "
+             "caracteres especiais.\n");
       free(novaSecao); // Liberar memoria alocada
       return;
     }
+    i++;
   }
+
   printf("Digite a localizacao da secao: ");
   if (scanf(" %[^\n]", novaSecao->localizacao) != 1 ||
       novaSecao->localizacao[0] == '\0') {
@@ -244,4 +248,27 @@ void carregarDados(Secao **head) {
 
   fclose(arquivo);
   printf("Dados carregados com sucesso.\n");
+}
+
+void liberarMemoria(Secao **head) {
+  if (*head == NULL) {
+    printf("Erro: Nao ha secoes para liberar memoria.\n");
+    return;
+  }
+
+  Secao *atualSecao = *head;
+  while (atualSecao != NULL) {
+    Material *atualMaterial = atualSecao->materiais;
+    while (atualMaterial != NULL) {
+      Material *temp = atualMaterial;
+      atualMaterial = atualMaterial->prox;
+      free(temp); // Liberar memoria do material
+    }
+
+    Secao *tempSecao = atualSecao;
+    atualSecao = atualSecao->prox;
+    free(tempSecao); // Liberar memoria da secao
+  }
+
+  *head = NULL; // Definir o ponteiro da lista como nulo
 }

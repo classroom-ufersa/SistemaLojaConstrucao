@@ -48,6 +48,6 @@ int main() {
   } while (escolha != 8);
 
   salvarDados(secoes);
-
+  liberarMemoria(&secoes);
   return 0;
 }

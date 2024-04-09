@@ -16,6 +16,7 @@ void adicionarMaterial(Secao **secoes) {
   printf("Digite o nome da secao para adicionar o material: ");
   scanf(" %[^\n]", nomeSecao);
   *nomeSecao = *formatarString(nomeSecao);
+
   Secao *secaoAtual = *secoes;
   while (secaoAtual != NULL && strcmp(secaoAtual->nome, nomeSecao) != 0) {
     secaoAtual = secaoAtual->prox;
@@ -36,16 +37,16 @@ void adicionarMaterial(Secao **secoes) {
   do {
     printf("Digite o nome do material: ");
     scanf(" %[^\n]", novoMaterial->nome);
-
     *novoMaterial->nome = *formatarString(novoMaterial->nome);
-    int i;
-    for (i = 0; novoMaterial->nome[i] != '\0'; i++) {
+    int i = 0;
+    while (novoMaterial->nome[i] != '\0') {
       if (!isalpha(novoMaterial->nome[i]) && novoMaterial->nome[i] != ' ') {
-        printf("Erro: O nome do material nao pode conter caracteres especiais "
-               "ou numeros.\n");
-        novoMaterial->nome[0] = '\0';
-        break;
+        printf("Erro: O nome da secao nao pode conter numeros, acentos ou "
+               "caracteres especiais.\n");
+        free(novoMaterial); // Liberar memoria alocada
+        return;
       }
+      i++;
     }
   } while (novoMaterial->nome[0] == '\0');
 
@@ -53,16 +54,18 @@ void adicionarMaterial(Secao **secoes) {
   do {
     printf("Digite o tipo do material: ");
     scanf(" %[^\n]", novoMaterial->tipo);
-    *novoMaterial->tipo = *formatarString(novoMaterial->nome);
-    int i;
-    for (i = 0; novoMaterial->tipo[i] != '\0'; i++) {
+    *novoMaterial->tipo = *formatarString(novoMaterial->tipo);
+    int i = 0;
+    while (novoMaterial->tipo[i] != '\0') {
       if (!isalpha(novoMaterial->tipo[i]) && novoMaterial->tipo[i] != ' ') {
-        printf("Erro: O tipo do material nao pode conter caracteres especiais "
-               "ou numeros.\n");
-        novoMaterial->tipo[0] = '\0';
-        break;
+        printf("Erro: O nome da secao nao pode conter numeros, acentos ou "
+               "caracteres especiais.\n");
+        free(novoMaterial); // Liberar memoria alocada
+        return;
       }
+      i++;
     }
+
   } while (novoMaterial->tipo[0] == '\0');
 
   // Validacao do preco do material
@@ -92,6 +95,7 @@ void adicionarMaterial(Secao **secoes) {
   // Encontrar o ponto de insercao correto na lista de materiais da secao
   Material *atual = secaoAtual->materiais;
   Material *anterior = NULL;
+
   while (atual != NULL && strcmp(novoMaterial->nome, atual->nome) > 0) {
     anterior = atual;
     atual = atual->prox;
@@ -120,6 +124,7 @@ void removerMaterial(Secao *head) {
   printf("Digite o nome do material que deseja remover: ");
   scanf("%s", nomeMaterial);
   *nomeMaterial = *formatarString(nomeMaterial);
+
   // Percorre a lista de secoes
   Secao *atualSecao = head;
   while (atualSecao != NULL) {
@@ -196,12 +201,11 @@ void buscarMaterial(Secao *head) {
   char nome[50];
   printf("Digite o nome do material a ser buscado: ");
   scanf(" %[^\n]", nome);
-  *nome = *formatarString(nome);
   Secao *atualSecao = head;
   while (atualSecao != NULL) {
     Material *atualMaterial = atualSecao->materiais;
     while (atualMaterial != NULL) {
-      if (strcmp(atualMaterial->nome, nome) == 0) {
+      if (strcmp(atualMaterial->nome, formatarString(nome)) == 0) {
         printf("Material encontrado na secao %s:\n", atualSecao->nome);
         printf("Nome: %s\n", atualMaterial->nome);
         printf("Tipo: %s\n", atualMaterial->tipo);
