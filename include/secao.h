@@ -57,4 +57,12 @@ void carregarDados(Secao **head);
  */
 void adicionarMaterialArgs(Material **head, char nome[], char tipo[],
                            float preco, int quantidade);
+/**
+ *
+ * @brief Função para liberar memória das seções e materiais.
+ *
+ *
+ * @param head Cabeçalho da lista de seções
+ */
+void liberarMemoria(Secao **head);
 #endif /* SESSAO_H */
