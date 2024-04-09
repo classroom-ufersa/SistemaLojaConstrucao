@@ -33,7 +33,6 @@ void adicionarMaterial(Secao **secoes) {
     return;
   }
 
-  // Validacao do nome do material
   do {
     printf("Digite o nome do material: ");
     scanf(" %[^\n]", novoMaterial->nome);
@@ -43,14 +42,13 @@ void adicionarMaterial(Secao **secoes) {
       if (!isalpha(novoMaterial->nome[i]) && novoMaterial->nome[i] != ' ') {
         printf("Erro: O nome da secao nao pode conter numeros, acentos ou "
                "caracteres especiais.\n");
-        free(novoMaterial); // Liberar memoria alocada
+        free(novoMaterial);
         return;
       }
       i++;
     }
   } while (novoMaterial->nome[0] == '\0');
 
-  // Validacao do tipo do material
   do {
     printf("Digite o tipo do material: ");
     scanf(" %[^\n]", novoMaterial->tipo);
@@ -60,15 +58,13 @@ void adicionarMaterial(Secao **secoes) {
       if (!isalpha(novoMaterial->tipo[i]) && novoMaterial->tipo[i] != ' ') {
         printf("Erro: O nome da secao nao pode conter numeros, acentos ou "
                "caracteres especiais.\n");
-        free(novoMaterial); // Liberar memoria alocada
+        free(novoMaterial); 
         return;
       }
       i++;
     }
-
   } while (novoMaterial->tipo[0] == '\0');
 
-  // Validacao do preco do material
   do {
     printf("Digite o preco do material: ");
     if (scanf("%f", &novoMaterial->preco) != 1 || novoMaterial->preco <= 0) {
@@ -78,7 +74,6 @@ void adicionarMaterial(Secao **secoes) {
     }
   } while (novoMaterial->preco <= 0);
 
-  // Validacao da quantidade em estoque do material
   int quantidadeValida = 0;
   while (!quantidadeValida) {
     printf("Digite a quantidade em estoque do material: ");

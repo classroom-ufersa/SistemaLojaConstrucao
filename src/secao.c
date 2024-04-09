@@ -234,13 +234,14 @@ void carregarDados(Secao **head) {
       sscanf(buffer, "    Tipo: %[^\n]", tipoMaterial);
       strcpy(novoMaterial->tipo, tipoMaterial);
 
-      fgets(buffer, sizeof(buffer),
-            arquivo); // Ler a linha seguinte contendo o preco e a quantidade
+      fgets(buffer, sizeof(buffer), arquivo);
       sscanf(buffer, "    Preco: %f", &precoMaterial);
-      sscanf(buffer, "    Quantidade: %d", &quantidadeMaterial);
       novoMaterial->preco = precoMaterial;
-      novoMaterial->quantidade = quantidadeMaterial;
 
+      fgets(buffer, sizeof(buffer), arquivo);
+      sscanf(buffer, "    Quantidade: %d", &quantidadeMaterial);
+      novoMaterial->quantidade = quantidadeMaterial;
+      
       novoMaterial->prox = ultimaSecao->materiais;
       ultimaSecao->materiais = novoMaterial;
     }
