@@ -14,12 +14,11 @@ typedef struct material {
 /*
  * @brief Funcao para adicionar um novo material para a secao
  *
- * @param Material **head Lista encadeada de materiais
- * @param Secao **secoes Lista encadeada de secoes
+ * @param head Lista encadeada de secoes
  *
  * @return void
  *  */
-void adicionarMaterial(Secao **secoes);
+void adicionarMaterial(Secao **head);
 
 /*
  * @brief Funcao para buscar um novo material na lista de secoes

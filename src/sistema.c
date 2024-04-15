@@ -35,8 +35,6 @@ int lerNumeroInteiro() {
   char opcao[100];
   int inteiroValido = 1;
 
-  printf("\nEscolha uma opcao: ");
-
   // Solicita ao usuario que insira uma opcao
   scanf("%s", opcao);
 

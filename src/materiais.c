@@ -73,19 +73,10 @@ void adicionarMaterial(Secao **secoes) {
         ; // Limpar o buffer de entrada
     }
   } while (novoMaterial->preco <= 0);
-
-  int quantidadeValida = 0;
-  while (!quantidadeValida) {
-    printf("Digite a quantidade em estoque do material: ");
-    if (scanf("%d", &novoMaterial->quantidade) == 1 &&
-        novoMaterial->quantidade >= 0) {
-      quantidadeValida = 1;
-    } else {
-      printf("Erro: Quantidade em estoque do material invalida.\n");
-      while (getchar() != '\n')
-        ; // Limpar o buffer de entrada
-    }
-  }
+  
+  printf("Insira a quantidade a ser adicionada: ");
+  int quantidade = lerNumeroInteiro();
+  novoMaterial->quantidade = quantidade;
 
   // Encontrar o ponto de insercao correto na lista de materiais da secao
   Material *atual = secaoAtual->materiais;
@@ -175,13 +166,7 @@ void realizarVenda(Secao *head) {
     if (atualMaterial != NULL) {
       int quantidade;
       printf("Digite a quantidade a ser vendida: ");
-      scanf("%d", &quantidade);
-
-      if (atualMaterial->quantidade < quantidade) {
-        printf("Erro: Nao ha quantidade suficiente em estoque.\n");
-        return;
-      }
-
+      quantidade = lerNumeroInteiro();
       atualMaterial->quantidade -= quantidade;
       printf("Venda realizada com sucesso.\n");
       return; // Encerra a funcao apos a venda

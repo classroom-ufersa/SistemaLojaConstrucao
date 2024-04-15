@@ -11,6 +11,7 @@ int main() {
   int escolha;
   do {
     menu();
+    printf("Escolha a sua opção: ");
     escolha = lerNumeroInteiro();
     switch (escolha) {
     case 1:
