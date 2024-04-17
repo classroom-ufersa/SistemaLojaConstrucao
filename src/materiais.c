@@ -167,15 +167,22 @@ void realizarVenda(Secao *head) {
       int quantidade;
       printf("Digite a quantidade a ser vendida: ");
       quantidade = lerNumeroInteiro();
-      atualMaterial->quantidade -= quantidade;
+      if (quantidade > atualMaterial->quantidade) {
+          printf("Não há materiais suficientes para realizar esta venda.");
+      } else {
+        atualMaterial->quantidade -= quantidade;
       printf("Venda realizada com sucesso.\n");
       return; // Encerra a funcao apos a venda
+   
+
+      }
     }
     atualSecao = atualSecao->prox;
   }
 
   printf("Erro: Material nao encontrado.\n");
 }
+
 
 void buscarMaterial(Secao *head) {
   char nome[50];

@@ -16,7 +16,7 @@ void menu() {
   printf("8. Sair\n");
 }
 
-char *formatarString(char *str) {
+char formatarString(char *str) {
 
   if (!isupper(str[0])) {
     str[0] = toupper(str[0]);
